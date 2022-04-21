@@ -24,6 +24,3 @@
     </application>
 
 </manifest>
-<activity
-android:name=".AdditemActivity"
-android:exported="false" >
