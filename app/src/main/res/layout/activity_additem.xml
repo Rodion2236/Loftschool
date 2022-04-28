@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,14 +30,18 @@
         app:layout_constraintTop_toBottomOf="@+id/cost" />
 
     <Button
+        android:id="@+id/add_button"
         android:layout_width="140dp"
         android:layout_height="40dp"
+        android:background="@android:color/transparent"
         android:layout_marginTop="140dp"
-        android:backgroundTint="@color/white"
-        android:text="@string/add"
-        android:textColor="@color/primaryButtonColorLoftmoney"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:enabled="false"
+        android:onClick="AddNewTitle"
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/primaryButtonColorLoftmoney"
+        android:drawableLeft="@drawable/ic_add_green"
+        android:text="@string/add">
+    </Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
