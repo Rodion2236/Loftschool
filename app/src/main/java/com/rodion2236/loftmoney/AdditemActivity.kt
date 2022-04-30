@@ -13,6 +13,7 @@ class AdditemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        bindingClass = ActivityAdditemBinding.inflate(layoutInflater)
         setContentView(bindingClass.root)
     }
 

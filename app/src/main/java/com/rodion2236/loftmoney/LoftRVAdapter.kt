@@ -37,8 +37,9 @@ class LoftRVAdapter: RecyclerView.Adapter<LoftRVAdapter.LoftHolder>() {
         return loftList.size
     }
 
-    fun addLoftItem(loftmoneyItem: LoftmoneyItem) {
-        loftList.add(loftmoneyItem)
+    fun addLoftItem(loftmoneyItem: List<LoftmoneyItem>) {
+        loftList.clear()
+        loftList.addAll(loftmoneyItem)
         notifyDataSetChanged()
     }
 }
