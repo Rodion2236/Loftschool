@@ -13,7 +13,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="110dp"
         android:hint="@string/cost"
-        android:textColor="@color/primaryTextColorLoftmoney"
+        android:textColor="@color/primary_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:hint="@string/title"
-        android:textColor="@color/primaryTextColorLoftmoney"
+        android:textColor="@color/primary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cost" />
@@ -36,11 +36,11 @@
         android:background="@android:color/transparent"
         android:layout_marginTop="140dp"
         android:enabled="false"
-        android:onClick="AddNewTitle"
+        android:onClick="AddButtonNewTitle"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/primaryButtonColorLoftmoney"
+        android:textColor="@color/accent_color"
         android:drawableLeft="@drawable/ic_add_green"
         android:text="@string/add">
     </Button>

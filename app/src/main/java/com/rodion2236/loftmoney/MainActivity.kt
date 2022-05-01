@@ -12,17 +12,6 @@ import java.util.ArrayList
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    private val rvadapter = LoftRVAdapter()
-
-    private val viewpagerList = listOf(
-        Vp1Fragment(),
-        Vp2Fragment()
-    )
-
-    private val viewpagerListTitle = listOf(
-        "Доходы",
-        "Расходы"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,24 +28,15 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_container, BudgetFragment())
             .commit()
-
     }
 
-    fun newObjectAdd(view: View) {
-        val i = Intent(this, AdditemActivity::class.java)
-        i.putExtra("key", "")
-        startActivityForResult(i, 100)
-    }
+    private val viewpagerList = listOf(
+        BudgetFragment(),
+    )
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        val loftmoneyItem = ArrayList<LoftmoneyItem>()
-
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            rvadapter.addLoftItem(loftmoneyItem)
-        } else if (resultCode == Activity.RESULT_CANCELED) {
-
-        }
-    }
+    private val viewpagerListTitle = listOf(
+        "Доходы",
+        "Расходы"
+    )
 }
+

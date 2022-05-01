@@ -3,11 +3,10 @@ package com.rodion2236.loftmoney
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher
 import com.rodion2236.loftmoney.databinding.ActivityAdditemBinding
-import com.rodion2236.loftmoney.databinding.ActivityMainBinding
 
-class AdditemActivity : AppCompatActivity() {
+class AdditemActivity : AppCompatActivity()  {
 
     lateinit var bindingClass: ActivityAdditemBinding
 
@@ -15,13 +14,14 @@ class AdditemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindingClass = ActivityAdditemBinding.inflate(layoutInflater)
         setContentView(bindingClass.root)
-    }
 
-    fun AddNewTitle(view: View) {
+        bindingClass.addButton.setOnClickListener(View.OnClickListener {
+            intent.putExtra("key_title" , bindingClass.title.text.toString())
+            intent.putExtra("key_cost" , bindingClass.cost.text.toString())
+            setResult(RESULT_OK, intent)
+            finish()
+        })
 
-        intent.putExtra("key" , bindingClass.title.text.toString())
-        intent.putExtra("key" , bindingClass.cost.text.toString())
-        setResult(RESULT_OK, intent)
-        finish()
+
     }
 }
