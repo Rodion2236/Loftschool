@@ -3,10 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/drawable-v24/ic_add_24.xml" value="0.18" />
         <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/drawable-v24/ic_add_green.xml" value="0.136" />
+        <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/drawable-v24/ic_add_grey.xml" value="0.18" />
+        <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/drawable-v24/selector_button.xml" value="0.1375" />
         <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/drawable-v24/selector_button_icon.xml" value="0.189" />
         <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/layout/activity_additem.xml" value="0.33" />
         <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/layout/fragment_budget.xml" value="0.26871794871794874" />
+        <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/layout/fragment_vp1.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/layout/fragment_vp2.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/kosol/AndroidStudioProjects/Loftmoney/app/src/main/res/layout/item_loftmoney.xml" value="0.27291666666666664" />
       </map>
     </option>
