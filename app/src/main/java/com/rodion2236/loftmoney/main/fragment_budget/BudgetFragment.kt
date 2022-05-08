@@ -1,6 +1,5 @@
 package com.rodion2236.loftmoney.main.fragment_budget
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,17 +9,16 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rodion2236.loftmoney.second.AdditemActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.rodion2236.loftmoney.LoftApp
 import com.rodion2236.loftmoney.R
 import com.rodion2236.loftmoney.adapters.LoftRVAdapter
-import com.rodion2236.loftmoney.remote.LoftmoneyItem
 
 import com.rodion2236.loftmoney.databinding.FragmentBudgetBinding
 
 class BudgetFragment : Fragment() {
 
-    private val rvadapter = LoftRVAdapter()
+    private val adapter = LoftRVAdapter()
     private var type: String? = null
     private var budgetViewModel = BudgetViewModel()
     private var bindingBudget: FragmentBudgetBinding? = null
@@ -31,9 +29,18 @@ class BudgetFragment : Fragment() {
         bindingBudget = FragmentBudgetBinding.inflate(inflater, container, false)
         val view = bindingBudget!!.root
         return view
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         init()
         configureViewModel()
+
+        val swipeRefreshLayout: SwipeRefreshLayout = bindingBudget!!.swipeRefresh
+        bindingBudget?.swipeRefresh?.setOnRefreshListener {
+            loadItems()
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -43,13 +50,10 @@ class BudgetFragment : Fragment() {
     private fun init() {
         bindingBudget?.apply {
             loftRecycler.layoutManager = LinearLayoutManager(activity)
-            loftRecycler.adapter = rvadapter
+            loftRecycler.adapter = adapter
 
             loftRecycler.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
-        bindingBudget?.addButtonBudget?.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(activity, AdditemActivity::class.java))
-        })
     }
 
     override fun onResume() {
@@ -67,9 +71,7 @@ class BudgetFragment : Fragment() {
 
     private fun configureViewModel() {
         budgetViewModel = ViewModelProvider(this).get(BudgetViewModel::class.java)
-        budgetViewModel.moneyItemsList.observe(viewLifecycleOwner) { moneyItems: List<LoftmoneyItem> ->
-            rvadapter.addLoftItem(moneyItems)
-        }
+        budgetViewModel.moneyItemsList.observe(viewLifecycleOwner, adapter::addLoftItem)
 
         budgetViewModel.messageString.observe(viewLifecycleOwner) { message: String ->
             if (message != "") {

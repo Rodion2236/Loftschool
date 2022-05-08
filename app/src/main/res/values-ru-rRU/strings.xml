@@ -6,4 +6,5 @@
     <string name="add">Добавить</string>
     <string name="incomes">Доходы</string>
     <string name="expenses">Расходы</string>
+    <string name="an_error_occurred_on_the_connection">Возникла ошибка соединения</string>
 </resources>

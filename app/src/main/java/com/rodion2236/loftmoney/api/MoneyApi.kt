@@ -15,6 +15,7 @@ interface MoneyApi {
     fun addItem(
         @Field("price") price: Int,
         @Field("name") name: String?,
-        @Field("type") type: String?
+        @Field("type") type: String?,
+        @Field("auth-token") token: String?
     ): Completable?
 }

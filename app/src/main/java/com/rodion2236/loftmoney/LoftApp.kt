@@ -13,8 +13,7 @@ class LoftApp: Application() {
     lateinit var moneyApi: MoneyApi
 
     companion object {
-        @JvmField
-        var AUTH_KEY = "authKey"
+        const val AUTH_KEY = "authKey"
     }
 
     override fun onCreate() {

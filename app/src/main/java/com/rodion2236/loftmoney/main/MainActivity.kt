@@ -1,23 +1,37 @@
 package com.rodion2236.loftmoney.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rodion2236.loftmoney.main.fragment_budget.BudgetFragment
 import com.rodion2236.loftmoney.R
 import com.rodion2236.loftmoney.databinding.ActivityMainBinding
+import com.rodion2236.loftmoney.second.AdditemActivity
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.viewpager.adapter = ViewPagerFragmentAdapter(this)
+        binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentPosition = position
+            }
+        })
 
         val viewpagerListTitle = arrayOf(
             getString(R.string.incomes),
@@ -28,9 +42,17 @@ class MainActivity : AppCompatActivity() {
             tab, pos -> tab.text = viewpagerListTitle[pos]
         }.attach()
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_container, BudgetFragment())
-            .commit()
+        val intent = Intent(this, AdditemActivity::class.java)
+        binding.addFloatingButtonBudget.setOnClickListener(View.OnClickListener {
+                var type = "0"
+                if (currentPosition == 0) {
+                    type = "income"
+                } else if (currentPosition == 1) {
+                    type = "expense"
+                }
+                intent.putExtra(BudgetFragment.TYPE, type)
+                startActivity(intent)
+        })
     }
 
     private inner class ViewPagerFragmentAdapter
