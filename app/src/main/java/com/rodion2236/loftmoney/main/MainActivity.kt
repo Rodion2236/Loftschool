@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rodion2236.loftmoney.main.fragment_budget.BudgetFragment
 import com.rodion2236.loftmoney.R
@@ -23,6 +24,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.viewpager.adapter = ViewPagerFragmentAdapter(this)
+        binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentPosition = position
+            }
+        })
+
         val viewpagerListTitle = arrayOf(
             getString(R.string.incomes),
             getString(R.string.expenses),
@@ -33,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         val intent = Intent(this, AdditemActivity::class.java)
-
         binding.addFloatingButtonBudget.setOnClickListener(View.OnClickListener {
                 var type = "0"
                 if (currentPosition == 0) {
@@ -44,10 +53,6 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra(BudgetFragment.TYPE, type)
                 startActivity(intent)
         })
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.loftRecycler, BudgetFragment())
-            .commit()
     }
 
     private inner class ViewPagerFragmentAdapter

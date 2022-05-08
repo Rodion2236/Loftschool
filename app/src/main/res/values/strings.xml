@@ -5,4 +5,5 @@
     <string name="add">Add</string>
     <string name="incomes">Incomes</string>
     <string name="expenses">Expenses</string>
+    <string name="an_error_occurred_on_the_connection">An error occurred on the connection</string>
 </resources>
