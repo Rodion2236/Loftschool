@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdditemActivity">
+    tools:context=".second.AdditemActivity">
 
     <EditText
         android:id="@+id/cost"
@@ -36,7 +36,6 @@
         android:background="@android:color/transparent"
         android:layout_marginTop="140dp"
         android:enabled="false"
-        android:onClick="AddButtonNewTitle"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,9 +1,11 @@
-package com.rodion2236.loftmoney
+package com.rodion2236.loftmoney.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.rodion2236.loftmoney.remote.LoftmoneyItem
+import com.rodion2236.loftmoney.R
 import com.rodion2236.loftmoney.databinding.ItemLoftmoneyBinding
 import java.util.ArrayList
 
@@ -18,7 +20,7 @@ class LoftRVAdapter: RecyclerView.Adapter<LoftRVAdapter.LoftHolder>() {
         fun bind(loftmoneyItem: LoftmoneyItem) = with(binding){
 
             loftmoneyTitleView.text = loftmoneyItem.title
-            loftmoneyValueView.text = loftmoneyItem.cost
+            loftmoneyValueView.text = loftmoneyItem.cost.toString()
         }
     }
 

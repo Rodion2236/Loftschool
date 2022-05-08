@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
         <FrameLayout
             android:id="@+id/fl_container"
@@ -16,35 +16,25 @@
             app:layout_constraintTop_toTopOf="parent">
         </FrameLayout>
 
-        <Button
-            android:id="@+id/btnNewObject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:text="add new object"
-            android:onClick="newObjectAdd"
-            android:textColor="@color/primaryButtonColorLoftmoney"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/AppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:titleTextColor="@color/white"
-            android:background="@color/primaryTextColorLoftmoney"/>
+            android:background="@color/primary_color"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabTextColor="@color/white"
-            android:background="@color/primaryTextColorLoftmoney"/>
+            android:background="@color/primary_color"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
