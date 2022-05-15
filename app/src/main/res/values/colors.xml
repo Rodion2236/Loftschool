@@ -13,6 +13,7 @@
     <color name="primary_color">#FF3574FA</color>
     <color name="accent_color">#FF7ED321</color>
     <color name="accent_second">#FFFF9E57</color>
+    <color name="primary_color_selected_items">#333F59</color>
 
     <color name="expense_color">@color/red</color>
     <color name="income_color">@color/accent_color</color>

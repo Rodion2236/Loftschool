@@ -1,4 +1,4 @@
-package com.rodion2236.loftmoney.api
+package com.rodion2236.loftmoney.remote.moneyApi
 
 import com.google.gson.annotations.SerializedName
 

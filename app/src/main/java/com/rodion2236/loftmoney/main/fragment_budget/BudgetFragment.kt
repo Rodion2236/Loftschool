@@ -13,15 +13,44 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.rodion2236.loftmoney.LoftApp
 import com.rodion2236.loftmoney.R
 import com.rodion2236.loftmoney.adapters.LoftRVAdapter
-
 import com.rodion2236.loftmoney.databinding.FragmentBudgetBinding
+import com.rodion2236.loftmoney.main.models.LoftmoneyItem
 
 class BudgetFragment : Fragment() {
 
-    private val adapter = LoftRVAdapter()
+    private var adapter = LoftRVAdapter()
     private var type: String? = null
     private var budgetViewModel = BudgetViewModel()
     private var bindingBudget: FragmentBudgetBinding? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        budgetViewModel = ViewModelProvider(this).get(BudgetViewModel::class.java)
+        if (arguments != null) {
+            type = getString(requireArguments().getInt(TYPE))
+            adapter = LoftRVAdapter(requireArguments().getInt(COLOR_ID))
+        } else {
+            adapter = LoftRVAdapter(R.color.grey)
+        }
+        adapter.setMoneyCellAdapterClick(object : LoftMoneyItemClickAdapter {
+            override fun CellClick(loftmoneyItem: LoftmoneyItem?) {
+                if (budgetViewModel.isEditMode.value!!) {
+                    loftmoneyItem!!.isSelected = loftmoneyItem.isSelected
+                    adapter.updateItem(loftmoneyItem)
+                    checkSelectedItem()
+                }
+            }
+
+            override fun LongCellClick(loftmoneyItem: LoftmoneyItem?) {
+                if (budgetViewModel.isEditMode.value!!) {
+                    loftmoneyItem!!.isSelected = true
+                    adapter.updateItem(loftmoneyItem)
+                    budgetViewModel.setEditMode(true)
+                    checkSelectedItem()
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,16 +71,11 @@ class BudgetFragment : Fragment() {
             swipeRefreshLayout.isRefreshing = false
         }
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        bindingBudget = null
-    }
 
     private fun init() {
         bindingBudget?.apply {
             loftRecycler.layoutManager = LinearLayoutManager(activity)
             loftRecycler.adapter = adapter
-
             loftRecycler.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
@@ -59,6 +83,11 @@ class BudgetFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadItems()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        bindingBudget = null
     }
 
     private fun loadItems() {
@@ -70,8 +99,31 @@ class BudgetFragment : Fragment() {
     }
 
     private fun configureViewModel() {
-        budgetViewModel = ViewModelProvider(this).get(BudgetViewModel::class.java)
-        budgetViewModel.moneyItemsList.observe(viewLifecycleOwner, adapter::addLoftItem)
+        budgetViewModel.selectedCounter.observe(viewLifecycleOwner) { newCount: Int? ->
+            if (activity is LoftMoneyEditListener) {
+                (activity as LoftMoneyEditListener?)!!.onCounterChanged(newCount!!)
+            }
+        }
+
+        budgetViewModel.isEditMode.observe(viewLifecycleOwner) { isEditMode: Boolean? ->
+            if (activity is LoftMoneyEditListener) {
+                (activity as LoftMoneyEditListener?)!!.onEditModeChanged(isEditMode!!)
+            }
+        }
+
+        budgetViewModel.moneyItemsList.observe(viewLifecycleOwner) { loftmoneyItems: List<LoftmoneyItem> ->
+            adapter.addLoftItem(loftmoneyItems)
+        }
+
+        budgetViewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing: Boolean? ->
+            bindingBudget?.swipeRefresh!!.isRefreshing = isRefreshing!!
+        }
+
+        budgetViewModel.removeItemDoneSuccess.observe(viewLifecycleOwner) { success: Boolean ->
+            if (success) {
+                loadItems()
+            }
+        }
 
         budgetViewModel.messageString.observe(viewLifecycleOwner) { message: String ->
             if (message != "") {
@@ -86,13 +138,46 @@ class BudgetFragment : Fragment() {
         }
     }
 
+    private fun checkSelectedItem() {
+        var selectedItemsCount = 0
+        for (loftmoneyItem in adapter.loftmoneyItemList) {
+            if (loftmoneyItem.isSelected) {
+                selectedItemsCount++
+            }
+        }
+        budgetViewModel.setSelectedItemsCount(selectedItemsCount)
+    }
+
+    override fun onClearEdit() {
+        budgetViewModel!!.setEditMode(false)
+        budgetViewModel!!.resetSelectedCounter()
+        for (moneyItem in adapter.loftmoneyItemList) {
+            if (moneyItem.isSelected) {
+                moneyItem.isSelected = false
+                adapter.updateItem(moneyItem)
+            }
+        }
+    }
+
+    override fun onClearSelectedClick() {
+        budgetViewModel!!.setEditMode(false)
+        budgetViewModel!!.resetSelectedCounter()
+        budgetViewModel!!.removeItem(
+            (requireActivity().application as LoftApp).moneyApi,
+            requireActivity().getSharedPreferences(getString(R.string.app_name), 0),
+            adapter.loftmoneyItemList
+        )
+    }
+
     companion object {
         const val TYPE = "typeFragment"
+        private const val COLOR_ID = "colorId"
 
-        fun newInstance(type: String?): BudgetFragment {
+        fun newInstance(colorID: Int, type: Int): BudgetFragment {
             val budgetFragment = BudgetFragment()
             val bundle = Bundle()
-            bundle.putString(TYPE, type)
+            bundle.putInt(TYPE, type)
+            bundle.putInt(COLOR_ID, colorID)
             budgetFragment.arguments = bundle
             return budgetFragment
         }
