@@ -7,11 +7,10 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher
 import com.google.android.material.textfield.TextInputEditText
 import com.rodion2236.loftmoney.LoftApp
 import com.rodion2236.loftmoney.R
-import com.rodion2236.loftmoney.api.MoneyApi
+import com.rodion2236.loftmoney.remote.moneyApi.MoneyApi
 import com.rodion2236.loftmoney.databinding.ActivityAdditemBinding
 import com.rodion2236.loftmoney.main.fragment_budget.BudgetFragment
 import io.reactivex.android.schedulers.AndroidSchedulers

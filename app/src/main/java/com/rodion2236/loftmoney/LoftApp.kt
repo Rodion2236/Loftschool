@@ -1,7 +1,8 @@
 package com.rodion2236.loftmoney
 
 import android.app.Application
-import com.rodion2236.loftmoney.api.MoneyApi
+import com.rodion2236.loftmoney.remote.authApi.AuthApi
+import com.rodion2236.loftmoney.remote.moneyApi.MoneyApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoftApp: Application() {
 
     lateinit var moneyApi: MoneyApi
+    lateinit var authApi: AuthApi
 
     companion object {
         const val AUTH_KEY = "authKey"
@@ -39,5 +41,6 @@ class LoftApp: Application() {
             .build()
 
         moneyApi = retrofit.create(MoneyApi::class.java)
+        authApi = retrofit.create(AuthApi::class.java)
     }
 }

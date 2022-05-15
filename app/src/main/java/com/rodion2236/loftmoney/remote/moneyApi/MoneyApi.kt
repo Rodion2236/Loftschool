@@ -1,4 +1,4 @@
-package com.rodion2236.loftmoney.api
+package com.rodion2236.loftmoney.remote.moneyApi
 
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -11,11 +11,16 @@ interface MoneyApi {
             Single<List<MoneyItemsResponse?>?>?
 
     @POST("./items/add")
-    @FormUrlEncoded
     fun addItem(
         @Field("price") price: Int,
         @Field("name") name: String?,
         @Field("type") type: String?,
+        @Field("auth-token") token: String?
+    ): Completable?
+
+    @POST("./items/remove")
+    fun remove(
+        @Field("id") id: Int,
         @Field("auth-token") token: String?
     ): Completable?
 }
