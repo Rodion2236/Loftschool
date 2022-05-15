@@ -8,9 +8,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
-abstract class LoftApp: Application(), AuthApi {
+class LoftApp: Application() {
 
     lateinit var moneyApi: MoneyApi
     lateinit var authApi: AuthApi
