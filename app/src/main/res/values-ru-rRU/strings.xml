@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Loftmoney</string>
+<!--    <string name="app_name">Loftmoney</string>-->
     <string name="cost">Расход</string>
     <string name="title">Наименование</string>
     <string name="add">Добавить</string>
@@ -24,4 +24,5 @@
     <string name="add_new_element_title">Добавление элемента</string>
     <string name="budget_accounting">Учет бюджета</string>
     <string name="selected">Выбрано: %d</string>
+    <string name="balance">Баланс</string> />
 </resources>

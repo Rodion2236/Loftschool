@@ -34,7 +34,7 @@ class LoftApp: Application() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://verdant-violet.glitch.me/")
+            .baseUrl("https://loftschool.com/android-api/basic/v1/")
             .client(okhttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

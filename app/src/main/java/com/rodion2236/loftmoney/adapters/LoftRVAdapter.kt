@@ -1,6 +1,5 @@
 package com.rodion2236.loftmoney.adapters
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -18,15 +17,16 @@ class LoftRVAdapter(private val colorId: Int): RecyclerView.Adapter<LoftRVAdapte
         get() = loftList
     private var loftmoneyCellClickAdapter: LoftMoneyItemClickAdapter? = null
 
-    class LoftHolder(item: View, colorId: Int,
+    class LoftHolder(itemView: View, colorId: Int,
                      loftMoneyItemClickAdapter: LoftMoneyItemClickAdapter?
-    ): RecyclerView.ViewHolder(item) {
-        val binding = ItemLoftmoneyBinding.bind(item)
+    ): RecyclerView.ViewHolder(itemView) {
+
+        val binding = ItemLoftmoneyBinding.bind(itemView)
         private val loftMoneyItemClickAdapter: LoftMoneyItemClickAdapter?
 
-        fun bind(loftmoneyItem: LoftmoneyItem) = with(binding){
-            loftmoneyTitleView.text = loftmoneyItem.title
-            loftmoneyValueView.text = loftmoneyItem.cost.toString() + "₽"
+        fun bind(loftmoneyItem: LoftmoneyItem) {
+            binding.loftmoneyTitleView.text = loftmoneyItem.title
+            binding.loftmoneyValueView.text = loftmoneyItem.cost.toString() + "₽"
             itemView.setBackgroundColor(ContextCompat.getColor(itemView.context,
             if (loftmoneyItem.isSelected) R.color.primary_color_selected_items
             else android.R.color.white)
@@ -36,6 +36,7 @@ class LoftRVAdapter(private val colorId: Int): RecyclerView.Adapter<LoftRVAdapte
             true
             }
         }
+
         init {
             binding.loftmoneyValueView.setTextColor(ContextCompat
                 .getColor(binding.loftmoneyValueView.context, colorId))
@@ -44,7 +45,6 @@ class LoftRVAdapter(private val colorId: Int): RecyclerView.Adapter<LoftRVAdapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoftHolder {
-
         val view = View.inflate(parent.context, R.layout.item_loftmoney, null)
         return LoftHolder(view, colorId, loftmoneyCellClickAdapter)
     }
@@ -63,9 +63,9 @@ class LoftRVAdapter(private val colorId: Int): RecyclerView.Adapter<LoftRVAdapte
         notifyItemChanged(itemPosition)
     }
 
-    fun addLoftItem(loftmoneyItem: List<LoftmoneyItem>) {
+    fun addLoftItem(loftmoneyItem: List<LoftmoneyItem>?) {
         loftList.clear()
-        loftList.addAll(loftmoneyItem)
+        loftList.addAll(loftmoneyItem!!)
         notifyDataSetChanged()
     }
 

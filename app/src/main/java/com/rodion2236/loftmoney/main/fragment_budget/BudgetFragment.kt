@@ -14,20 +14,35 @@ import com.rodion2236.loftmoney.LoftApp
 import com.rodion2236.loftmoney.R
 import com.rodion2236.loftmoney.adapters.LoftRVAdapter
 import com.rodion2236.loftmoney.databinding.FragmentBudgetBinding
+import com.rodion2236.loftmoney.main.EditModeListener
 import com.rodion2236.loftmoney.main.models.LoftmoneyItem
 
-class BudgetFragment : Fragment() {
+class BudgetFragment : Fragment(), LoftMoneyEditListener {
 
-    private var adapter = LoftRVAdapter()
+    private lateinit var adapter: LoftRVAdapter
     private var type: String? = null
     private var budgetViewModel = BudgetViewModel()
     private var bindingBudget: FragmentBudgetBinding? = null
+
+    companion object {
+        const val TYPE = "typeFragment"
+        private const val COLOR_ID = "colorId"
+
+        fun newInstance(colorId: Int, type: String): BudgetFragment {
+            val budgetFragment = BudgetFragment()
+            val bundle = Bundle()
+            bundle.putString(TYPE, type)
+            bundle.putInt(COLOR_ID, colorId)
+            budgetFragment.arguments = bundle
+            return budgetFragment
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         budgetViewModel = ViewModelProvider(this).get(BudgetViewModel::class.java)
         if (arguments != null) {
-            type = getString(requireArguments().getInt(TYPE))
+            type = requireArguments().getString(TYPE)
             adapter = LoftRVAdapter(requireArguments().getInt(COLOR_ID))
         } else {
             adapter = LoftRVAdapter(R.color.grey)
@@ -54,10 +69,10 @@ class BudgetFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+        savedInstanceState: Bundle?
+    ): View {
         bindingBudget = FragmentBudgetBinding.inflate(inflater, container, false)
-        val view = bindingBudget!!.root
-        return view
+        return bindingBudget!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,12 +88,11 @@ class BudgetFragment : Fragment() {
     }
 
     private fun init() {
-        bindingBudget?.apply {
-            loftRecycler.layoutManager = LinearLayoutManager(activity)
-            loftRecycler.adapter = adapter
-            loftRecycler.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-        }
+            bindingBudget!!.loftRecycler.layoutManager = LinearLayoutManager(activity)
+            bindingBudget!!.loftRecycler.adapter = adapter
+            bindingBudget!!.loftRecycler.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -100,14 +114,14 @@ class BudgetFragment : Fragment() {
 
     private fun configureViewModel() {
         budgetViewModel.selectedCounter.observe(viewLifecycleOwner) { newCount: Int? ->
-            if (activity is LoftMoneyEditListener) {
-                (activity as LoftMoneyEditListener?)!!.onCounterChanged(newCount!!)
+            if (activity is EditModeListener) {
+                (activity as EditModeListener).onCounterChanged(newCount!!)
             }
         }
 
         budgetViewModel.isEditMode.observe(viewLifecycleOwner) { isEditMode: Boolean? ->
-            if (activity is LoftMoneyEditListener) {
-                (activity as LoftMoneyEditListener?)!!.onEditModeChanged(isEditMode!!)
+            if (activity is EditModeListener) {
+                (activity as EditModeListener).onEditModeChanged(isEditMode!!)
             }
         }
 
@@ -149,8 +163,8 @@ class BudgetFragment : Fragment() {
     }
 
     override fun onClearEdit() {
-        budgetViewModel!!.setEditMode(false)
-        budgetViewModel!!.resetSelectedCounter()
+        budgetViewModel.setEditMode(false)
+        budgetViewModel.resetSelectedCounter()
         for (moneyItem in adapter.loftmoneyItemList) {
             if (moneyItem.isSelected) {
                 moneyItem.isSelected = false
@@ -160,27 +174,14 @@ class BudgetFragment : Fragment() {
     }
 
     override fun onClearSelectedClick() {
-        budgetViewModel!!.setEditMode(false)
-        budgetViewModel!!.resetSelectedCounter()
-        budgetViewModel!!.removeItem(
+        budgetViewModel.setEditMode(false)
+        budgetViewModel.resetSelectedCounter()
+        budgetViewModel.removeItem(
             (requireActivity().application as LoftApp).moneyApi,
             requireActivity().getSharedPreferences(getString(R.string.app_name), 0),
             adapter.loftmoneyItemList
         )
     }
-
-    companion object {
-        const val TYPE = "typeFragment"
-        private const val COLOR_ID = "colorId"
-
-        fun newInstance(colorID: Int, type: Int): BudgetFragment {
-            val budgetFragment = BudgetFragment()
-            val bundle = Bundle()
-            bundle.putInt(TYPE, type)
-            bundle.putInt(COLOR_ID, colorID)
-            budgetFragment.arguments = bundle
-            return budgetFragment
-        }
-    }
 }
+
 

@@ -7,8 +7,8 @@ import retrofit2.http.*
 interface MoneyApi {
 
     @GET("./items")
-    fun getmoneyItems(@Query("type") type: String?, authToken: String?):
-            Single<List<MoneyItemsResponse?>?>?
+    fun getmoneyItems(@Query("type") type: String?, @Query("auth-token")authToken: String?):
+            Single<List<MoneyRemoteItem>>
 
     @POST("./items/add")
     fun addItem(
@@ -23,4 +23,7 @@ interface MoneyApi {
         @Field("id") id: Int,
         @Field("auth-token") token: String?
     ): Completable?
+
+    @GET("./balance")
+    fun getBalance(@Query("auth-token") token: String?): Single<BalanceResponse?>?
 }
