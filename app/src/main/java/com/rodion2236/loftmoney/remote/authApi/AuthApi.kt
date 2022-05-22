@@ -7,5 +7,5 @@ import retrofit2.http.Query
 interface AuthApi {
 
     @GET("./auth")
-    fun makeLogin(@Query("id_user") UserId: String?): Single<AuthResponse?>?
+    fun makeLogin(@Query("id_user") UserId: String?): Single<AuthResponse>
 }

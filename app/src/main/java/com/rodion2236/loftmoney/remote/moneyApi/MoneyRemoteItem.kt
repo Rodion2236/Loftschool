@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName
 
 data class MoneyRemoteItem(
     @SerializedName("id")
-    val id: String,
+    var id: Int,
 
     @SerializedName("name")
-    val name: String,
+    var name: String,
 
     @SerializedName("price")
-    val price: Double,
+    var price: Double,
 
     @SerializedName("type")
-    val type: String,
+    var type: String,
 
     @SerializedName("date")
     val date: String

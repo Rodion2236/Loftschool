@@ -8,6 +8,7 @@ import com.rodion2236.loftmoney.LoftApp
 import com.rodion2236.loftmoney.main.models.LoftmoneyItem
 import com.rodion2236.loftmoney.remote.moneyApi.MoneyApi
 import com.rodion2236.loftmoney.remote.moneyApi.MoneyItemsResponse
+import com.rodion2236.loftmoney.remote.moneyApi.MoneyRemoteItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -84,23 +85,19 @@ class BudgetViewModel : ViewModel() {
                     sharedPreferences: SharedPreferences,
                     type: String?) {
         val authToken = sharedPreferences.getString(LoftApp.AUTH_KEY, "")
-
-        moneyApi.getmoneyItems(type, authToken)
-            ?.subscribeOn(Schedulers.io())
-            ?.observeOn(AndroidSchedulers.mainThread())?.let {
-                compositeDisposable.add(
-                    it
-                .subscribe({ moneyRemoteItems: List<MoneyItemsResponse?>? ->
-                    val loftmoneyItems: MutableList<LoftmoneyItem> = ArrayList()
-                    for (moneyRemoteItem in moneyRemoteItems!!) {
-                        loftmoneyItems.add(LoftmoneyItem.getInstance(moneyRemoteItems))
-                    }
-                    _moneyItemsList.postValue(loftmoneyItems)
-                    _isRefreshing.postValue(false)
-                }) { throwable: Throwable ->
-                    _messageString.postValue(throwable.localizedMessage)
-                    _isRefreshing.postValue(false)
-                })
-            }
+        compositeDisposable.add(moneyApi.getmoneyItems(type, authToken)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ moneyRemoteItems: List<MoneyRemoteItem> ->
+                val loftmoneyItems: MutableList<LoftmoneyItem> = ArrayList()
+                for (moneyRemoteItem in moneyRemoteItems) {
+                    loftmoneyItems.add(LoftmoneyItem.getInstance(moneyRemoteItem))
+                }
+                _moneyItemsList.postValue(loftmoneyItems)
+                _isRefreshing.postValue(false)
+            }) { throwable: Throwable ->
+                _messageString.postValue(throwable.localizedMessage)
+                _isRefreshing.postValue(false)
+            })
     }
 }
