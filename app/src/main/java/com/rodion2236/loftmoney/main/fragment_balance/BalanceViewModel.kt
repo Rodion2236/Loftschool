@@ -28,14 +28,18 @@ class BalanceViewModel : ViewModel() {
 
     fun loadBalance(moneyApi: MoneyApi, sharedPreferences: SharedPreferences) {
         val authToken = sharedPreferences.getString(LoftApp.AUTH_KEY, "")
-        moneyApi.getBalance(authToken)
-            ?.subscribeOn(Schedulers.io())
-            ?.observeOn(AndroidSchedulers.mainThread())?.let {
-                compositeDisposable.add(
-                it
-                    .subscribe({ balanceResponse: BalanceResponse? ->
+        compositeDisposable.add(moneyApi.getBalance(authToken)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { balanceResponse ->
+                    if (balanceResponse.status != "success")
                         _balance.postValue(getInstance(balanceResponse!!))
-                    }) { throwable: Throwable -> _messageString.postValue(throwable.localizedMessage) })
-            }
+                },
+                { throwable: Throwable ->
+                    _messageString.postValue(throwable.localizedMessage)
+                }
+            )
+        )
     }
 }

@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.rodion2236.loftmoney.LoftApp
 import com.rodion2236.loftmoney.R
-import com.rodion2236.loftmoney.adapters.LoftRVAdapter
+import com.rodion2236.loftmoney.adapters.MoneyItemsAdapter
 import com.rodion2236.loftmoney.databinding.FragmentBudgetBinding
 import com.rodion2236.loftmoney.main.EditModeListener
 import com.rodion2236.loftmoney.main.models.LoftmoneyItem
 
 class BudgetFragment : Fragment(), LoftMoneyEditListener {
 
-    private lateinit var adapter: LoftRVAdapter
+    private lateinit var adapter: MoneyItemsAdapter
     private var type: String? = null
     private var budgetViewModel = BudgetViewModel()
     private var bindingBudget: FragmentBudgetBinding? = null
@@ -43,9 +43,9 @@ class BudgetFragment : Fragment(), LoftMoneyEditListener {
         budgetViewModel = ViewModelProvider(this).get(BudgetViewModel::class.java)
         if (arguments != null) {
             type = requireArguments().getString(TYPE)
-            adapter = LoftRVAdapter(requireArguments().getInt(COLOR_ID))
+            adapter = MoneyItemsAdapter(requireArguments().getInt(COLOR_ID))
         } else {
-            adapter = LoftRVAdapter(R.color.grey)
+            adapter = MoneyItemsAdapter(R.color.grey)
         }
         adapter.setMoneyCellAdapterClick(object : LoftMoneyItemClickAdapter {
             override fun CellClick(loftmoneyItem: LoftmoneyItem?) {

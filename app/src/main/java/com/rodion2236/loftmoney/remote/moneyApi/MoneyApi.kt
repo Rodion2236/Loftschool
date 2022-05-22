@@ -16,14 +16,14 @@ interface MoneyApi {
         @Field("name") name: String?,
         @Field("type") type: String?,
         @Field("auth-token") token: String?
-    ): Completable?
+    ): Completable
 
     @POST("./items/remove")
     fun remove(
         @Field("id") id: Int,
         @Field("auth-token") token: String?
-    ): Completable?
+    ): Completable
 
     @GET("./balance")
-    fun getBalance(@Query("auth-token") token: String?): Single<BalanceResponse?>?
+    fun getBalance(@Query("auth-token") token: String?): Single<BalanceResponse>
 }

@@ -10,14 +10,14 @@ import com.rodion2236.loftmoney.databinding.ItemLoftmoneyBinding
 import com.rodion2236.loftmoney.main.fragment_budget.LoftMoneyItemClickAdapter
 import java.util.ArrayList
 
-class LoftRVAdapter(private val colorId: Int): RecyclerView.Adapter<LoftRVAdapter.LoftHolder>() {
+class MoneyItemsAdapter(private val colorId: Int): RecyclerView.Adapter<MoneyItemsAdapter.MoneyViewHolder>() {
 
     private val loftList: MutableList<LoftmoneyItem> = ArrayList()
     val loftmoneyItemList: List<LoftmoneyItem>
         get() = loftList
     private var loftmoneyCellClickAdapter: LoftMoneyItemClickAdapter? = null
 
-    class LoftHolder(itemView: View, colorId: Int,
+    class MoneyViewHolder(itemView: View, colorId: Int,
                      loftMoneyItemClickAdapter: LoftMoneyItemClickAdapter?
     ): RecyclerView.ViewHolder(itemView) {
 
@@ -44,12 +44,12 @@ class LoftRVAdapter(private val colorId: Int): RecyclerView.Adapter<LoftRVAdapte
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoftHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoneyViewHolder {
         val view = View.inflate(parent.context, R.layout.item_loftmoney, null)
-        return LoftHolder(view, colorId, loftmoneyCellClickAdapter)
+        return MoneyViewHolder(view, colorId, loftmoneyCellClickAdapter)
     }
 
-    override fun onBindViewHolder(holder: LoftHolder, position: Int) {
+    override fun onBindViewHolder(holder: MoneyViewHolder, position: Int) {
         holder.bind(loftList[position])
     }
 
